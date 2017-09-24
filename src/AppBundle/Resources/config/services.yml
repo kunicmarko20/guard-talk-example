@@ -1,0 +1,69 @@
+services:
+    app.provider.user:
+        class: AppBundle\Security\UserProvider
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+
+    app.authenticator.login:
+        class: AppBundle\Security\LoginAuthenticator
+        autowire: true
+
+    app.doctrine.listener.hash_password:
+        class: AppBundle\Doctrine\HashPasswordListener
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.command.create_user:
+        class: AppBundle\Command\CreateUserCommand
+        autowire: true
+        tags:
+            - { name: console.command }
+
+    app.command.promote_user:
+        class: AppBundle\Command\PromoteUserCommand
+        autowire: true
+        tags:
+            - { name: console.command }
+
+    app.command.demote_user:
+        class: AppBundle\Command\DemoteUserCommand
+        autowire: true
+        tags:
+            - { name: console.command }
+
+    app.util.user_command:
+        class: AppBundle\Service\UserCommandUtil
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+
+    app.subscriber.last_login:
+        class: AppBundle\EventSubscriber\LastLoginSubscriber
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.security.ediable_roles_builder:
+        class: AppBundle\Security\EditableRolesBuilder
+        arguments:
+              - "@security.token_storage"
+              - "@security.authorization_checker"
+              - "@sonata.admin.pool"
+              - "%security.role_hierarchy.roles%"
+
+    app.form.transformer.restore_roles:
+        class: AppBundle\Form\Transformer\RestoreRolesTransformer
+        autowire: true
+
+    app.form.type.security_roles:
+        class: AppBundle\Form\Type\SecurityRolesType
+        autowire: true
+        tags:
+            - { name: form.type }
+
+    app.admin.user:
+        class: AppBundle\Admin\UserAdmin
+        arguments: [~, AppBundle\Entity\User, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Users }
