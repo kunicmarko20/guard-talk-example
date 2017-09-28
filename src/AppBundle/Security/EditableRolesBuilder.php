@@ -94,7 +94,7 @@ class EditableRolesBuilder
         // get roles from the service container
         foreach ($this->rolesHierarchy as $name => $rolesHierarchy) {
             if ($this->authorizationChecker->isGranted($name) || $isMaster) {
-                $roles[$name] = $name.': '.implode(', ', $rolesHierarchy);
+                $roles[$name] = $name;
 
                 foreach ($rolesHierarchy as $role) {
                     if (!isset($roles[$role])) {
