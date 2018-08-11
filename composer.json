@@ -1,6 +1,6 @@
 {
-    "name": "z/guard-talk-example",
-    "license": "proprietary",
+    "name": "kunicmarko20/guard-talk-example",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {
