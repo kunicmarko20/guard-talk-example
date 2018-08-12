@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marko Kunic
- * Date: 9/13/17
- * Time: 15:52
- */
 
 namespace AppBundle\EventSubscriber;
 

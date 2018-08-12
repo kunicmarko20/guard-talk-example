@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marko Kunic
- * Date: 9/23/17
- * Time: 12:20 PM
- */
 
 namespace AppBundle\Entity;
 

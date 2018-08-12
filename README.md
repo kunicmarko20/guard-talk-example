@@ -1,5 +1,5 @@
 Symfony Guard Example
-==================
+====================
 
 This is example code for implementing Symfony Guard with SonataAdminBundle instead of SonataUserBundle.
 

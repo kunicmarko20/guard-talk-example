@@ -3,14 +3,14 @@ security:
         ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
         SONATA:
-            - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT
+        - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT
 
     encoders:
         AppBundle\Entity\User: bcrypt
 
     providers:
         users:
-            id: app.provider.user
+            id: AppBundle\Security\UserProvider
 
     firewalls:
         # Disabling the security for the web debug toolbar, the profiler and Assetic.
@@ -29,12 +29,14 @@ security:
             logout:
                 path:           admin_logout
                 target:         admin_login
+            logout_on_user_change: true
             anonymous:          true
             guard:
                 authenticators:
-                    - app.authenticator.login
+                    - AppBundle\Security\LoginAuthenticator
         main:
             anonymous: ~
+            logout_on_user_change: true
 
     access_control:
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

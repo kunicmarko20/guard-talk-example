@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marko Kunic
- * Date: 9/13/17
- * Time: 12:21
- */
 
 namespace AppBundle\Security;
 
-use AppBundle\Form\Type\LoginType;
+use AppBundle\Form\LoginForm;
 use AppBundle\Entity\User;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,11 +15,23 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
+use Symfony\Component\Security\Guard\AuthenticatorInterface;
 
-class LoginAuthenticator extends AbstractFormLoginAuthenticator
+class LoginAuthenticator extends AbstractFormLoginAuthenticator implements AuthenticatorInterface
 {
+    /**
+     * @var FormFactoryInterface
+     */
     private $formFactory;
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
+
+    /**
+     * @var RouterInterface
+     */
     private $router;
 
     public function __construct(
@@ -38,13 +44,18 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function getCredentials(Request $request)
+    public function supports(Request $request)
     {
         if ($request->getPathInfo() != '/admin/login' || $request->getMethod() != 'POST') {
-            return null;
+            return false;
         }
 
-        $form = $this->formFactory->create(LoginType::class);
+        return true;
+    }
+
+    public function getCredentials(Request $request)
+    {
+        $form = $this->formFactory->create(LoginForm::class);
         $form->handleRequest($request);
 
         $data = $form->getData();
@@ -94,14 +105,8 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
         return $this->router->generate('sonata_admin_dashboard');
     }
 
-    public function supportsRememberMe()
-    {
-    }
-
     protected function getLoginUrl()
     {
-        $url = $this->router->generate('admin_login');
-
-        return new RedirectResponse($url);
+        return new RedirectResponse($this->router->generate('admin_login'));
     }
 }

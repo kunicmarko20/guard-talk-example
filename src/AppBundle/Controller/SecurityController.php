@@ -1,34 +1,37 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marko Kunic
- * Date: 9/23/17
- * Time: 6:46 PM
- */
 
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Form\Type\LoginType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Form\LoginForm;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
+    /**
+     * @var AuthenticationUtils
+     */
+    private $authenticationUtils;
+
+    public function __construct(AuthenticationUtils $authenticationUtils)
+    {
+        $this->authenticationUtils = $authenticationUtils;
+    }
+
     /**
      * @Route("/admin/login", name="admin_login")
      */
     public function loginAction()
     {
-        $helper = $this->get('security.authentication_utils');
-
-        $form = $this->createForm(LoginType::class, [
-            'email' => $helper->getLastUsername()
+        $form = $this->createForm(LoginForm::class, [
+            'email' => $this->authenticationUtils->getLastUsername()
         ]);
 
-        return $this->render('AppBundle:Security:login.html.twig', [
-            'last_username' => $helper->getLastUsername(),
+        return $this->render('@App/Security/login.html.twig', [
+            'last_username' => $this->authenticationUtils->getLastUsername(),
             'form' => $form->createView(),
-            'error' => $helper->getLastAuthenticationError(),
+            'error' => $this->authenticationUtils->getLastAuthenticationError(),
         ]);
     }
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marko Kunic
- * Date: 9/13/17
- * Time: 11:12
- */
 
 namespace AppBundle\Doctrine;
 
@@ -13,8 +7,11 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class HashPasswordListener implements EventSubscriber
+class HashPasswordSubscriber implements EventSubscriber
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -30,7 +27,7 @@ class HashPasswordListener implements EventSubscriber
     public function prePersist(LifecycleEventArgs $args)
     {
         $user = $args->getEntity();
-        
+
         if (!$user instanceof User) {
             return;
         }
