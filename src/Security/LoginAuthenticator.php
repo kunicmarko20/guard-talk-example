@@ -46,7 +46,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         if ($request->getPathInfo() != '/admin/login' || $request->getMethod() != 'POST') {
             return false;
@@ -55,7 +55,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
         return true;
     }
 
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): array
     {
         $form = $this->formFactory->create(LoginForm::class);
         $form->handleRequest($request);
@@ -70,12 +70,12 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
         return $data;
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
     {
         return $userProvider->loadUserByUsername($credentials['email']);
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
             return false;
@@ -93,19 +93,19 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
         return true;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
 
         return new RedirectResponse($this->router->generate('admin_login'));
     }
 
-    protected function getLoginUrl()
+    protected function getLoginUrl(): RedirectResponse
     {
         return new RedirectResponse($this->router->generate('admin_login'));
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
         return new RedirectResponse($this->router->generate('sonata_admin_dashboard'));
     }

@@ -12,7 +12,7 @@ class PromoteUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -28,7 +28,7 @@ class PromoteUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $email   = $input->getArgument('email');
         $role      = $input->getArgument('role');
@@ -41,7 +41,7 @@ class PromoteUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $questions = [];
 
@@ -73,7 +73,7 @@ class PromoteUserCommand extends AbstractUserCommand
         }
     }
 
-    protected function getHelpText()
+    protected function getHelpText(): string
     {
         return <<<EOT
 The <info>app:user:promote</info> command promotes a user by adding a role

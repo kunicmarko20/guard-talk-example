@@ -16,10 +16,10 @@ abstract class AbstractUserCommand extends ContainerAwareCommand
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setHelp($this->getHelpText());
     }
 
-    abstract protected function getHelpText();
+    abstract protected function getHelpText(): string;
 }

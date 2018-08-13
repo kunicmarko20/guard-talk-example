@@ -12,7 +12,7 @@ class CreateUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('app:user:create')
@@ -29,7 +29,7 @@ class CreateUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $email = $input->getArgument('email');
         $password = $input->getArgument('password');
@@ -43,7 +43,7 @@ class CreateUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $questions = [];
 
@@ -79,7 +79,7 @@ class CreateUserCommand extends AbstractUserCommand
         }
     }
 
-    protected function getHelpText()
+    protected function getHelpText(): string
     {
         return <<<EOT
 The <info>app:user:create</info> command creates a user:

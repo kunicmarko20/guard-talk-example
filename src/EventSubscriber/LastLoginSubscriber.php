@@ -17,7 +17,7 @@ class LastLoginSubscriber implements EventSubscriberInterface
         $this->entityManager = $entityManager;
     }
 
-    public function onInteractiveLogin(InteractiveLoginEvent $event)
+    public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
         /** @var User $user */
         $user = $event->getAuthenticationToken()->getUser();
@@ -26,7 +26,7 @@ class LastLoginSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin'

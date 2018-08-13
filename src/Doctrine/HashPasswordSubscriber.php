@@ -19,12 +19,12 @@ class HashPasswordSubscriber implements EventSubscriber
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return ['prePersist', 'preUpdate'];
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $user = $args->getEntity();
 
@@ -35,7 +35,7 @@ class HashPasswordSubscriber implements EventSubscriber
         $this->encodePassword($user);
     }
 
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args): void
     {
         $user = $args->getEntity();
 
@@ -50,7 +50,7 @@ class HashPasswordSubscriber implements EventSubscriber
         $em->getUnitOfWork()->recomputeSingleEntityChangeSet($meta, $user);
     }
 
-    private function encodePassword(User $user)
+    private function encodePassword(User $user): void
     {
         if (!$user->getPlainPassword()) {
             return;

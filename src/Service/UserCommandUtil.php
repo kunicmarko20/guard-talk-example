@@ -15,7 +15,7 @@ class UserCommandUtil
         $this->entityManager = $entityManager;
     }
 
-    public function create($email, $password, $role = null)
+    public function create($email, $password, $role = null): void
     {
         $user = new User();
 
@@ -26,13 +26,13 @@ class UserCommandUtil
         $this->saveUser($user);
     }
 
-    private function saveUser(User $user)
+    private function saveUser(User $user): void
     {
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 
-    public function promote(string $email, string $role)
+    public function promote(string $email, string $role): void
     {
         $user = $this->findUserByEmail($email);
 
@@ -41,11 +41,7 @@ class UserCommandUtil
         $this->saveUser($user);
     }
 
-    /**
-     * @param string $email
-     * @return User
-     */
-    private function findUserByEmail(string $email)
+    private function findUserByEmail(string $email): User
     {
         $user = $this->entityManager
             ->getRepository(User::class)
@@ -58,7 +54,7 @@ class UserCommandUtil
         return $user;
     }
 
-    public function demote(string $email, string $role)
+    public function demote(string $email, string $role): void
     {
         $user = $this->findUserByEmail($email);
 

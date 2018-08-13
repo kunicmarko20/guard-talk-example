@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Form\LoginForm;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -22,7 +23,7 @@ class SecurityController extends Controller
     /**
      * @Route("/admin/login", name="admin_login")
      */
-    public function loginAction()
+    public function loginAction(): Response
     {
         $form = $this->createForm(LoginForm::class, [
             'email' => $this->authenticationUtils->getLastUsername()
@@ -38,7 +39,7 @@ class SecurityController extends Controller
     /**
      * @Route("/admin/logout", name="admin_logout")
      */
-    public function logoutAction()
+    public function logoutAction(): void
     {
     }
 }

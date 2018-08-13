@@ -12,7 +12,7 @@ class DemoteUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -28,7 +28,7 @@ class DemoteUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $email   = $input->getArgument('email');
         $role      = $input->getArgument('role');
@@ -40,7 +40,7 @@ class DemoteUserCommand extends AbstractUserCommand
     /**
      * @see Command
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $questions = [];
 
@@ -72,7 +72,7 @@ class DemoteUserCommand extends AbstractUserCommand
         }
     }
 
-    protected function getHelpText()
+    protected function getHelpText(): string
     {
         return <<<EOT
 The <info>app:user:demote</info> command demotes a user by removing a role

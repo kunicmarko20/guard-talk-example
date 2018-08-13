@@ -17,7 +17,7 @@ class UserProvider implements UserProviderInterface
         $this->entityManager = $entityManager;
     }
 
-    public function loadUserByUsername($email)
+    public function loadUserByUsername($email): User
     {
         $user = $this->findUserBy(['email' => $email]);
 
@@ -33,7 +33,7 @@ class UserProvider implements UserProviderInterface
         return $user;
     }
 
-    private function findUserBy(array $options)
+    private function findUserBy(array $options): ?User
     {
         $user = $this->entityManager
             ->getRepository(User::class)
@@ -42,7 +42,7 @@ class UserProvider implements UserProviderInterface
         return $user;
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): User
     {
         /** @var User $user */
         if (null === $reloadedUser = $this->findUserBy(['id' => $user->getId()])) {
@@ -57,7 +57,7 @@ class UserProvider implements UserProviderInterface
         return $reloadedUser;
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === User::class;
     }
